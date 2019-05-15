@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from data import Data
 
+
 class Weapons(Data):
     def __init__(self, page_url):
         self.page_url = page_url
@@ -16,18 +17,29 @@ class Weapons(Data):
         weapon_data = guide.find_all('p')
 
         weapon_names = []
-        weapon_location = []
+        weapon_locations = []
 
-        for i in range(3, len(weapon_data) ):
+        for i in range(3, len(weapon_data)):
             if i % 2 is 0:
-                pass
-            else:
-                print(weapon_data[i].find('a').get_text())
+                weapon_locations.append(weapon_data[i].get_text())
+            elif weapon_data[i].a is not None:
+                weapon_names.append(self.get_item_name(weapon_data[i]))
 
-        return weapon_data
+        print(len(weapon_names))
+        print(len(weapon_locations))
+
+        for item in weapon_locations:
+            print(item)
+
+        #weapons = pandas.DataFrame({
+        #    "name":weapon_names,
+        #    "location":weapon_locations
+        #})
+
+        #return weapons
 
     def get_item_name(self, item):
-        pass
+        return item.find('a').get_text()
 
     def get_item_location(self, item):
         pass
